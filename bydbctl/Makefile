@@ -29,8 +29,13 @@ GOARCH ?= amd64
 .PHONY: all
 all: build
 
+.PHONY: generate-api
+generate-api:
+	@echo "Generating API"
+	make -C ../api generate
+
 .PHONY: build
-build: 
+build: generate-api
 	@echo "Building binary"
 	GOOS=$(GOOS) GOARCH=$(GOARCH) go build -v --ldflags '${GO_LINK_VERSION}' -o $(BUILD_DIR)/$(NAME) github.com/apache/skywalking-banyandb/bydbctl/cmd/bydbctl/$*
 	chmod +x $(BUILD_DIR)/$(NAME)
